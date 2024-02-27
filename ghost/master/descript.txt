@@ -1,0 +1,20 @@
+charset,UTF-8
+
+name,Aiba
+type,ghost
+
+sakura.name,Aiba
+kero.name,Blank
+
+craftman,Vita/yuyudev
+craftmanw,Vita/yuyudev
+craftmanurl,https://thatoddhaystack.neocities.org/ukagaka/
+
+sstp.allowunspecifiedsend,0
+shiori,yaya.dll
+
+//http://www.convertico.com/ is handy for making .icos
+icon,aiba.ico
+balloon,AI:TSF Balloon
+
+kero.seriko.defaultsurface, 999

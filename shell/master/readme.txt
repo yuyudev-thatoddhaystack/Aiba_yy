@@ -1,0 +1,1 @@
+Aiba's Default shell; her AI-Ball form. Drawn and coded by Vita @ Yuyudev on twitter

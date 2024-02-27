@@ -1,0 +1,1403 @@
+
+OnProduMenu{
+
+	"\0\s[0]\b2Yes?\n\n[half]"
+	--
+	"\![*]\q[Sleep Reminder,OnSleepRemind]\n/	
+	\![*]\q[General Reminders,OnGenReminders]\n/
+	\![*]\q[Work Timer,OnPomodoro]\n/
+	\![*]\q[Google Something,OnGoogle]\n\n[half]"
+	--
+	"\![*]\q[Back to the main menu,OnMenuRun]\e"
+
+}
+
+
+
+//*****************************  Bootleg Pomodoro  *************************************************
+
+//pomoArray
+//0 = hour
+//1 = min
+//2 = type
+//3 = customtimer [WORK]
+//4 = goal
+//5 = time in sec to stop
+//6 = AM/PM
+//7 = custom timer [BREAK]
+
+OnPomodoro : all
+{
+
+	if Flag("pomoOn") {
+		"\0\s[0]\b2You currently have a work timer running until %(pomoArray[0]):%(pomoArray[1]) %(pomoArray[6]).\w8 Would you like to cancel it?"
+		
+		"\n\n\![*]\q[Cancel current timer,pomocancel]\n"
+	
+	}
+	elseif Flag("pomoBreakOn") {
+		"\0\s[0]\b2You currently have a break timer running until %(pomoArray[0]):%(pomoArray[1]) %(pomoArray[6]).\w8 Would you like to cancel it?"
+		
+		"\n\n\![*]\q[Cancel current timer,pomocancel]\n"
+	
+	} else {
+
+		"\0\s[0]\b2What combination of work and break time would you like?\_q\n\n[half]"
+		"\![*]\q[25/5/20,OnStartPomo,reg]\n/
+		\![*]\q[50/10/40,OnStartPomo,double]\n/
+		\![*]\q[100/20/80,OnStartPomo,quad]\n"
+		if customPomoOne[2] > 0 {
+		"\![*]\q[%(customPomoOne[0])/%(customPomoOne[1])/%(customPomoOne[2]),OnStartPomo,customOne]\n"
+		}
+		if customPomoTwo[2] > 0 {
+		"\![*]\q[%(customPomoTwo[0])/%(customPomoTwo[1])/%(customPomoTwo[2]),OnStartPomo,customTwo]\n"
+		}
+		"\![*]\q[Custom One-off,OnStartPomo,customOneOff]"
+		
+		if reference0 != "pomoover" {
+			"\n\![*]\q[What is this?,pomoexplain]"
+			successivePomos = 0 //want successive pomos to tick up regardless of continuous mode, hence it is only reset if you navigate to this menu w/o a pomo/break ongoing AND if it is not from just finishing a pomo
+		}
+		"\n\n\![*]\q_Continuous Mode: \_a[OnToggleContinuous]%(continuousPomo)\_a\n\n"
+		
+		"\![*]\q[Start Long Session,OnStartCont]\n"
+		if customPomoOne[2] > 0 {
+			"\![*]\q[Change Custom Preset One,OnSetCustom,one]\n"
+
+		} else {
+			"\![*]\q[Set Custom Preset One,OnSetCustom,one]\n"
+		}
+		if customPomoTwo[2] > 0  {
+			"\![*]\q[Change Custom Preset Two,OnSetCustom,two]\n"
+
+		} else {
+			"\![*]\q[Set Custom Preset Two,OnSetCustom,two]\n"
+		}
+	
+	}
+	
+	"\n[half]\0\s[0]Back to...\n\n[half]"
+	"\![*]\q[Productivity menu,OnProduMenu]\n/
+	\![*]\q[Main menu,OnMenuRun]\e"
+}
+
+BalloonTooltip_OnToggleContinuous { "Runs work and break sessions continuously without user interaction\nCan be canceled by going back to this menu.\nIf used with the custom setting, it will repeat the first given setting with a long break 4x longer than the short break." }
+BalloonTooltip_OnStartCont { "Runs a user-determined number of sessions continuously" }
+
+OnToggleContinuous
+{
+	if continuousPomo != "On"; continuousPomo = "On"
+	else; continuousPomo = "Off"
+	--
+	OnPomodoro
+}
+
+OnStartCont : all {
+
+	"\0\s[0]How many sessions do you want to run back to back?"
+	--
+	"\![open,sliderinput,OnContSessionsPicked,-1,8,2,32]"
+
+}
+
+OnContSessionsPicked : all{
+
+	continuousSessions = reference0 - 1 //counting sessions left, essentially
+	"\b2\0\s[0]Now pick which type of session you want to run continuously.\n\n"
+	--
+	"\![*]\q[25/5/20,OnStartPomo,reg]\n/
+	\![*]\q[50/10/40,OnStartPomo,double]\n/
+	\![*]\q[100/20/80,OnStartPomo,quad]\n"
+	if customPomoOne[2] > 0 {
+		"\![*]\q[%(customPomoOne[0])/%(customPomoOne[1])/%(customPomoOne[2]),OnStartPomo,customOne]\n"
+	}
+	if customPomoTwo[2] > 0 {
+		"\![*]\q[%(customPomoTwo[0])/%(customPomoTwo[1])/%(customPomoTwo[2]),OnStartPomo,customTwo]\n"
+	}
+	"\n[half]\0\s[0]\_qNevermind, back to...\n\n[half]"
+	--
+	"\![*]\q[Work Timer menu,OnPomodoro]\n/
+	\![*]\q[Productivity menu,OnProduMenu]\n/
+	\![*]\q[Main menu,OnMenuRun]\e"
+
+}
+
+
+OnSetCustom {
+
+	"\0\s[0]How many minutes would you like to work?\n\n[half]"
+	--
+	
+	"\![open,inputbox,OnSetWorkCustom,-1,--reference=%(reference0)]"
+
+}
+
+OnSetWorkCustom { //should this be ref1 or ref2 we shall see
+
+	if !(ISINTSTR(reference0+'')) {
+		
+		"\0\s[0]...Just digits, please. \![open,inputbox,OnSetWorkCustom,-1,--reference=%(reference2)]\e"
+		
+	} elseif reference0 < 1 {
+		
+		"\0\s[0]I can not set a timer for %(reference0) minutes.\w8 Enter a positive number.\![open,inputbox,OnSetWorkCustom,-1,--reference=%(reference2)]\e"
+		
+	} elseif reference2 == "one" {
+	
+		customPomoOne[0] = reference0
+		
+	} elseif reference2 == "two"
+	{
+		customPomoTwo[0] = reference0
+	}
+	--
+	"\0\s[0]How many minutes would you like for your break?\n\n[half]"
+	--
+	
+	"\![open,inputbox,OnSetBreakCustom,-1,--reference=%(reference2)]"
+
+}
+
+OnSetBreakCustom { //should this be ref1 or ref2 we shall see
+
+	if !(ISINTSTR(reference0+'')) {
+		
+		"\0\s[0]...Just digits, please. \![open,inputbox,OnSetBreakCustom,-1,--reference=%(reference2)]\e"
+		
+	} elseif reference0 < 1 {
+		
+		"\0\s[0]I can not set a timer for %(reference0) minutes.\w8 Enter a positive number.\![open,inputbox,OnSetBreakCustom,-1,--reference=%(reference2)]\e"
+		
+	} elseif reference2 == "one" {
+	
+		customPomoOne[1] = reference0
+		
+	} elseif reference2 == "two"
+	{
+		customPomoTwo[1] = reference0
+	}
+	--
+	"\0\s[0]How many minutes would you like for your long break?\n\n[half]"
+	--
+	
+	"\![open,inputbox,OnSetLongBreakCustom,-1,--reference=%(reference2)]"
+
+}
+
+OnSetLongBreakCustom { //should this be ref1 or ref2 we shall see
+
+	if !(ISINTSTR(reference0+'')) {
+		
+		"\0\s[0]...Just digits, please. \![open,inputbox,OnSetLongBreakCustom,-1,--reference=%(reference2)]\e"
+		
+	} elseif reference0 < 1 {
+		
+		"\0\s[0]I can not set a timer for %(reference0) minutes.\w8 Enter a positive number.\![open,inputbox,OnSetLongBreakCustom,-1,--reference=%(reference2)]\e"
+		
+	} elseif reference2 == "one" {
+	
+		customPomoOne[2] = reference0
+		"\0\s[0]I have set preset one to %(customPomoOne[0])/%(customPomoOne[1])/%(customPomoOne[2]), with work time/break time/long break time, respectively."
+		
+	} elseif reference2 == "two"
+	{
+		customPomoTwo[2] = reference0
+		"\0\s[0]I have set preset two to %(customPomoTwo[0])/%(customPomoTwo[1])/%(customPomoTwo[2]), with work time/break time/long break time, respectively."
+	}
+
+	--
+	"\n\n[half]\_q\0\s[0]Back to...\n\n[half]"
+	--
+	"\![*]\q[Work Timer menu,OnPomodoro]\e"
+
+}
+
+OnStartPomo {
+
+	pomoArray[2] = reference0
+	
+	if reference0 == "customOneOff" {
+	
+
+		"\0\s[0]How many minutes would you like to work?\n\n[half]"
+	
+		--
+	
+		"\![open,inputbox,OnSetmin,-1]"
+	
+	}
+	else {
+		"\0\s[0]Would you like to set a goal for this work session?\n\n[half]"
+		
+		--
+		
+		"\![*]\q[Yes,pomoGoal]\n/
+		\![*]\q[No,nogoal]\n\n[half]\e"
+	}
+
+}
+
+
+//sets work timer for a custom time. no words or negative/0 numbers
+OnSetmin{
+	
+	pomoArray[3] = reference0
+	
+	//why am i doing this. testcases r in my blood i guess. anyways checks if user entered a valid number
+	if !(ISINTSTR(pomoArray[3]+'')) {
+		
+		"\0\s[0]...Just digits, please. \![open,inputbox,OnSetmin,-1]\e"
+		
+	} elseif pomoArray[3] < 1 {
+		
+		"\0\s[0]I can not set a timer for %(reference0) minutes.\w8 Enter a positive number.\![open,inputbox,OnSetmin,-1]\e"
+		
+	} else { //valid number
+		 "\0\s[0]Would you like to set a goal for this session?\n\n[half]"
+	}
+	
+	--
+	
+	"\![*]\q[Yes,pomoGoal]\n/
+	\![*]\q[No,nogoal]\n\n[half]\e"
+	
+
+}
+
+//next few functions are for goal setting/when the user doesnt pick a goal
+Select.pomoGoal{
+	
+	"\0\s[0]Okay.\w8 What would you like to focus on?\n\n[half]"
+	
+	--
+	
+	"\![open,inputbox,OnPomoGoal,-1]"
+
+}
+
+
+OnPomoGoal{
+
+	pomoArray[4] = SHIORI3FW.EscapeAllTags(reference0)
+	
+	--
+	
+	PomoStartCalc
+
+}
+
+Select.nogoal{
+	
+	pomoArray[4] = ""
+	
+	--
+	
+	PomoStartCalc
+
+}
+	
+//the main meat of the pomo functionality. includes checking for when the work session runs into the next hour	
+PomoStartCalc{
+
+	pomoArray[5] = GETSECCOUNT
+	
+	case pomoArray[2]
+      {
+            when "reg" //25 min
+            {
+				pomoArray[5] = GETSECCOUNT + (25*60)
+            }
+            when "double" //50 min
+            {
+				pomoArray[5] = GETSECCOUNT + (50*60)
+            }
+            when "quad" //100 min
+            {
+				pomoArray[5] = GETSECCOUNT + (100*60)
+            } 
+			when "customOne"
+			{	
+				pomoArray[5] = GETSECCOUNT + (customPomoOne[0]*60)
+			}
+			when "customTwo"
+			{	
+				pomoArray[5] = GETSECCOUNT + (customPomoTwo[0]*60)
+			}
+			others //customOneOff
+            {
+
+				pomoArray[5] = GETSECCOUNT + (pomoArray[3]*60)
+				
+            }
+      }
+	pomoArray[0] = GETTIME(pomoArray[5])[4]
+	pomoArray[1] = GETTIME(pomoArray[5])[5]
+	
+	if pomoArray[0] > 11; pomoArray[6] = "PM" 
+	else; pomoArray[6] = "AM" 
+	
+	
+	//fix to display 0 as midnight 
+	if pomoArray[0] == 0 { 
+		pomoArray[0] = 12
+	}
+	
+
+	//to correct going over the 12 hour mark. gosh i wish i had just gone with military time
+	if pomoArray[0] > 12 {
+		pomoArray[0] = pomoArray[0] - 12
+	}
+	
+	MiscFlags ,= "pomoOn"
+	
+	//formatting stuffs
+	if pomoArray[1] < 10 {
+	
+		pomoArray[1] = "0" + pomoArray[1]
+	}
+	
+	--
+	if pomoArray[4] == "" {
+		
+		"\0\s[0]Alright.\w8 Your work timer ends at %(pomoArray[0]):%(pomoArray[1]) %(pomoArray[6])."
+		
+	} else {
+		
+		"\0\s[0]Okay, your goal for this session is %(pomoArray[4]). The timer is running until %(pomoArray[0]):%(pomoArray[1]) %(pomoArray[6])."
+	}
+	
+}
+
+//on pomo over, presets r already calculated for break time but the custom one needs input from user
+OnPomoOver{
+	
+	successivePomos++
+	
+	if continuousPomo == "On" && pomoArray[7] > 0 {
+	
+		OnPomoBreakCalc
+	
+	} elseif continuousSessions > 0 {
+	
+		continuousSessions--
+		OnPomoBreakCalc
+
+	} elseif continuousSessions == 0 {
+		continuousSessions = -1;
+		"\0\s[0]You finished your continuous work sessions!\w8 Great job!\n\n[half]"
+		--
+		"\0\s[0]Back to...\n\n[half]"
+		--
+		"\![*]\q[Work Timer menu,OnPomodoro]\n/
+		\![*]\q[Productivity menu,OnProduMenu]\n/
+		\![*]\q[Main menu,OnMenuRun]\e"
+		
+	}elseif pomoArray[2] == "customOneOff" {
+		
+		"\0\s[0]You worked hard!\w8 Would you like a break?\n\n[half]"
+		"\0\s[0]Nice job!\w8 Would you like a break?\n\n[half]"
+		
+		--
+	
+		"\![*]\q[Yes,OnPomoBreakCustom]\n/
+		\![*]\q[No,OnPomoEnd]\n\n[half]\e"
+		
+		
+	} else {
+	
+		"\0\s[0]You worked hard.\w8 Would you like a break?\n\n[half]"
+		"\0\s[0]Nice job.\w8 Would you like a break?\n\n[half]"
+	
+		--
+	
+		"\![*]\q[Yes,OnPomoBreakCalc]\n/
+		\![*]\q[No,OnPomoEnd]\n\n[half]\e"
+	}
+
+}
+
+
+//same stuff as custom pomo time setting
+OnPomoBreakCustom{
+
+	if successivePomos > 3 {
+	
+		"\0\s[0]Time to take a long break.\w8 How many minutes would you like it to be?\n\n[half]"
+	
+	} else {
+	
+		"\0\s[0]Time to take a break.\w8 How many minutes would you like it to be?\n\n[half]"
+	}
+	
+	--
+	
+	"\![open,inputbox,OnSetbreakmin,-1]"
+	
+
+}
+
+OnSetbreakmin{
+
+	pomoArray[7] = reference0
+	
+	if !(ISINTSTR(pomoArray[7]+'')) {
+		
+		"\0\s[0]...Just digits, please. \![open,inputbox,OnSetbreakmin,-1]\e"
+		
+	} elseif pomoArray[7] < 1 {
+		
+		"\0\s[0]I can not set a timer for %(reference0) minutes.\w8 Enter a positive number.\![open,inputbox,OnSetbreakmin,-1]\e"
+		
+	}
+	
+	--
+	
+	OnPomoBreakCalc
+
+}
+
+//end work session, whether user had a break or not
+OnPomoEnd{
+	
+	if continuousPomo == "On"  || continuousSessions > -1 {
+	
+		PomoStartCalc
+	
+	} else {
+		
+		"\0\s[0]Done with that session! Do you want to start another one?\n\n[half]"
+		
+		--
+		
+		"\![*]\q[Yes,OnPomodoro,pomoover]\n\n[half]"
+		
+		--
+		"\0\s[0]No, back to...\n\n[half]"
+		--
+		"\![*]\q[Productivity menu,OnProduMenu]\n/
+		\![*]\q[Main menu,OnMenuRun]\e"
+	}
+
+}
+
+//same calculating as PomoStart
+OnPomoBreakCalc{	
+
+	pomoArray[5] = GETSECCOUNT
+	
+	case pomoArray[2]
+      {
+            when "reg" //25 min
+            {
+				if successivePomos > 3 {
+				
+					pomoArray[5] = GETSECCOUNT + (20*60)
+					successivePomos = 0;
+				
+				} else {
+					pomoArray[5] = GETSECCOUNT + (5*60)
+				}
+            }
+            when "double" //50 min
+            {
+				if successivePomos > 3 {
+				
+					pomoArray[5] = GETSECCOUNT + (40*60)
+					successivePomos = 0;
+				
+				} else {
+					pomoArray[5] = GETSECCOUNT + (10*60)
+				}
+            }
+            when "quad" //100 min
+            {
+				if successivePomos > 3 {
+				
+					pomoArray[5] = GETSECCOUNT + (80*60)
+					successivePomos = 0;
+				
+				} else {
+					pomoArray[5] = GETSECCOUNT + (20*60)
+				}
+            }			
+			when "customOne"
+			{	
+				if successivePomos > 3 {
+					pomoArray[5] = GETSECCOUNT + (customPomoOne[2]*60)
+					successivePomos = 0;
+				
+				} else {
+					pomoArray[5] = GETSECCOUNT + (customPomoOne[1]*60)
+				}
+			}  
+			when "customTwo"
+			{	
+				if successivePomos > 3 {
+					pomoArray[5] = GETSECCOUNT + (customPomoTwo[2]*60)
+					successivePomos = 0;
+				
+				} else {
+					pomoArray[5] = GETSECCOUNT + (customPomoTwo[1]*60)
+				}
+			}			
+			others //custom
+            {
+				if continuousPomo == "On" && successivePomos > 3{
+					pomoArray[5] = GETSECCOUNT + (pomoArray[7]*60*4)
+				} else {
+					pomoArray[5] = GETSECCOUNT + (pomoArray[7]*60)
+				}
+				
+            }
+      }
+	pomoArray[0] = GETTIME(pomoArray[5])[4]
+	pomoArray[1] = GETTIME(pomoArray[5])[5]
+	
+	if pomoArray[0] > 11; pomoArray[6] = "PM" 
+	else; pomoArray[6] = "AM" 
+	
+	//to correct going over the 12 hour mark. gosh i wish i had just gone with military time
+	if pomoArray[0] > 12 {
+		pomoArray[0] = pomoArray[0] - 12
+	}
+	
+	if pomoArray[0] == 0 { 
+		pomoArray[0] = 12
+	}
+	MiscFlags ,= "pomoBreakOn"
+	
+	if pomoArray[1] < 10 {
+	
+		pomoArray[1] = "0" + pomoArray[1]
+	}
+	
+	
+	--
+	
+	"\0\s[0]Your break ends at %(pomoArray[0]):%(pomoArray[1]) %(pomoArray[6]).\w8 Take some time to rest.\w8\e"
+	
+}
+
+//pomodoro explanation
+Select.pomoexplain{
+
+
+	"\0\s[0]Here, you can set a timer for working on something. After your work session ends, you can take a short break!\w8 Every four consecutive sessions, you can take a longer break.\w8 This is based on the \_a[https://en.wikipedia.org/wiki/Pomodoro_Technique]Pomodoro Technique\_a\x\cYou can set a custom timer if any of the presets don't appeal to you.\w8 I recommend giving yourself one minute of break time for every five minutes worked, but really, it's up to you.\n\n[half]"
+	--
+	"\![*]\q[Got it!,OnPomodoro]\n\e"
+	
+}
+
+//for canceling the pomo timer. cancels both the break timer and the work timer 
+Select.pomocancel{
+
+	
+	//just cancel out everything for funsies. I probably dont need to but w/e
+	pomoArray = IARRAY
+	successivePomos = 0
+	continuousSessions = -1
+	--
+	if Flag("pomoOn") {
+		"\0\s[0]Canceling your work session?\w8 Okay."
+	} 
+	else {//pomoBreakOn
+		"\0\s[0]Canceling your break?\w8 Alright."
+	}
+	--
+	RemoveFlag("pomoOn") 
+	RemoveFlag("pomoBreakOn")
+	--
+	"\n\n[half]\_q\0\s[0]Back to...\n\n[half]"
+	--
+	"\![*]\q[Work Timer menu,OnPomodoro]\n/
+	\![*]\q[Productivity menu,OnProduMenu]\n/
+	\![*]\q[Main menu,OnMenuRun]\e"
+
+}
+
+//*****************************  Sleep Reminders  *************************************************
+//vaguely inspired by sleepyti.me
+//sleep time array
+// wakehour [0]
+// wakemin [1]
+// wakeampm [2]
+// sleephour [3]
+// sleepmin [4]
+// sleepampm [5]
+// hours to sleep [6]
+// minutes to sleep [7]
+// minutes before sleep to remind [8]
+// '' hour [9]
+// '' min [10]
+// '' ampm [11]
+//seconds for GETTIME
+OnSleepRemind{
+	
+	if Flag("sleepReminderOn") {
+	
+		if sleepArray[8] == 0 {
+			"\0\s[0]\b2You have a sleep reminder already on, for %(sleepArray[3]):%(sleepArray[4]) %(sleepArray[5]).\w4 Would you like to cancel or change it?\n\n[half]"	
+		} else {
+			"\0\s[0]\b2You have a sleep reminder already on, for %(sleepArray[9]):%(sleepArray[10]) %(sleepArray[11]), with your bedtime being %(sleepArray[3]):%(sleepArray[4]) %(sleepArray[5]).\w4 Would you like to cancel or change it?\n\n[half]"	
+		
+		}
+		--
+		"\_q\![*]\q[Cancel reminder,OnSleepCancel]\n/
+		\![*]\q[Change reminder,OnSleepChange]\n\n[half]"
+		--
+		"\0\s[0]Nevermind, back to...\n\n[half]"
+		--
+		"\![*]\q[Productivity menu,OnProduMenu]\n/
+		\![*]\q[Main menu,OnMenuRun]\e"
+	
+	} else {
+	
+		sleepArray = IARRAY
+		
+		--
+		"\0\s[0]Ok! Please give me the time you want to wake up, formatted like xx:xx:am (or pm)\n\n[half]"
+		
+		--
+		"\![open,inputbox,OnSetWakeUp,-1,XX:XX:AM]"
+	}
+
+}
+
+//cancel sleep time reminder
+OnSleepCancel{
+	
+	RemoveFlag("sleepReminderOn")
+	
+	"\0\s[0]Alright. Canceled your sleep reminder.\n\n[half]"
+	
+	--
+	"\_q\0\s[0]Back to...\n\n[half]"
+	--
+	"\![*]\q[Productivity menu,OnProduMenu]\n/
+	\![*]\q[Main menu,OnMenuRun]\e"
+	
+	
+}
+
+//change sleeptime reminder
+OnSleepChange{
+
+	RemoveFlag("sleepReminderOn")
+	sleepArray = IARRAY
+	
+	--
+	"\0\s[0]Got it, I'll change your reminder. First, please give me the time you want to wake up, formatted like xx:xx:am (or pm)\n\n[half]"
+	
+	--
+	"\![open,inputbox,OnSetWakeUp,-1,XX:XX:AM]"
+
+}
+
+
+OnSetWakeUp{
+	
+	_wakearray = SPLIT(reference0, ':')
+	//"Printing wake array: %(wakearray[0]), %(wakearray[1]) \x"
+	--
+	//make sure 2 numbers were entered and that they both are ints + am or pm follows it
+	//this if statement is literally so ugly im sorry
+	if (ARRAYSIZE(_wakearray) != 3) || !(ISINTSTR(_wakearray[0]+'')) || !(ISINTSTR(_wakearray[1]+'')) || !(TOLOWER(_wakearray[2]) == "am" || TOLOWER(_wakearray[2]) == "pm") {
+		
+		"\0\s[0]Hmm... are you sure you gave me a correctly formatted time?\![open,inputbox,OnSetWakeUp,-1,XX:XX:AM]\e"
+	
+	}
+	--
+	sleepArray[0] = TOINT(_wakearray[0])
+	sleepArray[1]= TOINT(_wakearray[1])
+	sleepArray[2] = TOUPPER(_wakearray[2])
+	
+	//make sure times are real times
+	if (sleepArray[0] > 12 || sleepArray[0] < 1) || (sleepArray[1] > 59 || sleepArray[1] < 0) {
+	
+		"\s[0]I believe you gave me an incorrect time.\w8 Try again.\![open,inputbox,OnSetWakeUp,-1,XX:XX:AM]\e"
+	}
+	--
+	//formatting stuffs
+	if sleepArray[1] < 10 {
+	
+		sleepArray[1] = "0" + TOINT(sleepArray[1])
+	}
+	--
+	
+	"\0\s[0]I have %(sleepArray[0] ):%(sleepArray[1]) %(sleepArray[2]) as your wake up time.\w8 How long do you want to sleep? Format it the same way: hours:minutes.\![open,inputbox,OnSetSleepAmount,-1,XX:XX]\e"
+	
+	
+}
+
+//sort of same checks as OnSetWakeUp
+OnSetSleepAmount{
+	_sleeparray = SPLIT(reference0, ':')
+	//"Printing sleep array: %(_sleeparray[0]), %(_sleeparray[1]) \x"
+	--
+	//make sure 2 numbers were entered and that they both are ints. could default to just 1 number is hour buttttt 
+	//keep it simple (shrugs)
+	if (ARRAYSIZE(_sleeparray) != 2) || !(ISINTSTR(_sleeparray[0]+'')) || !(ISINTSTR(_sleeparray[1]+'')) {
+		
+		"\0\s[0]Hmm... are you sure you gave me hours and minutes?\![open,inputbox,OnSetSleepAmount,-1,XX:XX]\e"
+	
+	}
+	--
+	sleepArray[6] = TOINT(_sleeparray[0])
+	sleepArray[7] = TOINT(_sleeparray[1])
+	
+	--
+	//0 hours is ok i guess. but not negative
+	if (sleepArray[6]  < 0) {
+	
+		"\0\s[0]I do not believe it is possible to sleep for negative hours.\w8 Try again\![open,inputbox,OnSetSleepAmount,-1,XX:XX]\e"
+	
+	}
+	--
+	//make sure minutes are valid
+	if (sleepArray[7]> 59 || sleepArray[7] < 0) {
+	
+		"\0\s[0]I believe you gave me an incorrect time.\w8 Try again.\![open,inputbox,OnSetSleepAmount,-1,XX:XX]\e"
+	}
+	--
+	"How many minutes before your bedtime would you like to be reminded?\w8 Set it to 0, and I will just remind you when it is time to sleep.\![open,sliderinput,OnSleepCalc,-1,30,0,60]"
+}
+
+
+// sleephour [3]
+// sleepmin [4]
+// sleepampm [5]
+//ampm { if hour >= 12; 1;   else; 0    }
+OnSleepCalc{
+	
+	sleepArray[3]  = -1
+	sleepArray[4]  = -1
+	sleepArray[5]  = "XM"
+	sleepArray[8] = reference0
+	
+	_wakehour = 0;
+	if sleepArray[2] == "PM" && sleepArray[0] != 12 {
+		_wakehour = sleepArray[0] + 12
+	} elseif sleepArray[2] == "AM" && sleepArray[0] == 12 {
+		_wakehour = 0
+	} else {
+		_wakehour = sleepArray[0]
+	}
+
+	_wakesec = GETSECCOUNT(year,month,day+1,0,_wakehour,sleepArray[1],0) 
+	_wakesec = _wakesec - (( sleepArray[6] * 3600) + (sleepArray[7] * 60))
+	_wakearray = GETTIME(_wakesec)
+	
+	sleepArray[3] = _wakearray[4]
+	sleepArray[4] = _wakearray[5]
+
+	_wakesec = _wakesec - (sleepArray[8]*60)
+	_wakearray = GETTIME(_wakesec)
+	
+	sleepArray[9] = _wakearray[4]
+	sleepArray[10] = _wakearray[5]
+	sleepArray[13] = _wakesec
+		
+	if sleepArray[3] > 11; sleepArray[5] = "PM"
+	else; sleepArray[5] = "AM"
+	
+	if sleepArray[3] > 12 {
+		sleepArray[3] = sleepArray[3] - 12
+	} elseif sleepArray[3] == 0 {
+		sleepArray[3] += 12
+	}
+	
+	if sleepArray[9] > 11; sleepArray[11] = "PM"
+	else; sleepArray[11] = "AM"
+	
+	if sleepArray[9] > 12 {
+		sleepArray[9] = sleepArray[9] - 12
+	} elseif sleepArray[9] == 0 {
+		sleepArray[9] += 12
+	}
+	
+	--
+	MiscFlags ,= "sleepReminderOn"
+	
+	//formatting stuffs
+	if sleepArray[4] < 10 {
+	
+		sleepArray[4] = "0" + sleepArray[4]
+	}	
+	if sleepArray[10] < 10 {
+	
+		sleepArray[10] = "0" + sleepArray[10]
+	}
+	--
+	if sleepArray[8] == 0 
+	{
+		"\0\s[0]\b2I've recorded your bedtime as %(sleepArray[3]):%(sleepArray[4]) %(sleepArray[5]).\w8 I'll remind you then to go to sleep!\n\n[half]"
+	} else {
+		"\0\s[0]\b2I've recorded your bedtime as %(sleepArray[3]):%(sleepArray[4]) %(sleepArray[5]).\w8 I'll remind you at %(sleepArray[9]):%(sleepArray[10]) %(sleepArray[11]) to get ready for bed.\n\n[half]"
+	}
+	
+	--
+	
+	"\_q\0\s[0]Back to...\n\n[half]"
+	--
+
+	"\![*]\q[Productivity menu,OnProduMenu]\n/
+	\![*]\q[Main menu,OnMenuRun]\e"
+
+
+}
+
+
+//----------------------Reminders--------------------------
+//reminder mini array
+//[0] note
+//[1] hour 
+//[2] min
+//[3] am/pm
+//[4] day
+//[5] month
+//[6] year
+//[7] sec -> compared against GETSECCOUNT
+//[8] repeat "daily" "weekly" "every 30 days" "none"
+//[9] hour 24 for use in GETSECCOUNT
+OnGenReminders : all {
+
+	"\0\s[0]\b2I can remind you do to things!\w8 What would you like to do?\n\n"
+	"\_qPlease note that if my menu is open, reminders will not show up.\n\n"
+	"\![*]\q[Set new reminder,OnSetNewReminder]\n"
+	"\![*]\q[View/Edit/Delete reminders,OnDisplayReminders]\n\n"
+
+	"\0\s[0]Back to...\n\n[half]"
+	--
+
+	"\![*]\q[Productivity menu,OnProduMenu]\n/
+	\![*]\q[Main menu,OnMenuRun]\e"
+
+}
+
+OnSetNewReminder : all {
+
+	if reference2 == "note_entered" {
+		
+		singleReminderArray = ""
+		singleReminderArray[0] = SHIORI3FW.EscapeAllTags(reference0)
+		
+		"\0\s[0]What time did you want to be reminded?\w8 Please format it as Hours:Minutes:AM/PM\![open,inputbox,OnSetNewReminder,-1,XX:XX:AM,--reference=time_entered]\e"
+	
+	} elseif reference2 == "time_entered" {
+		_timearray = SPLIT(reference0, ':')
+
+		if (ARRAYSIZE(_timearray) != 3) || !(ISINTSTR(_timearray[0]+'')) || !(ISINTSTR(_timearray[1]+'')) || TOINT(_timearray[0]) < 0 || TOINT(_timearray[0]) > 12 || TOINT(_timearray[1]) < 0 || TOINT(_timearray[1]) > 59 || !(TOLOWER(_timearray[2]) == "am" || TOLOWER(_timearray[2]) == "pm"){
+			
+			"\0\s[0]That is an incorrect time.\w8 Please try again.\![open,inputbox,OnSetNewReminder,-1,XX:XX:AM,--reference=time_entered]\e"
+		
+		}
+		
+		singleReminderArray[1] = TOSTR(TOINT(_timearray[0])) //get rid of any leading 0's
+		singleReminderArray[2] = _timearray[1]
+		singleReminderArray[3] = TOUPPER(_timearray[2])
+		
+		if singleReminderArray[3] == "AM" && singleReminderArray[1] == "12" {
+			singleReminderArray[9] = "0"
+		} elseif singleReminderArray[3] == "PM" && TOINT(singleReminderArray[1]) < 12 {
+			singleReminderArray[9] = TOSTR(TOINT(singleReminderArray[1])  + 12)
+		} else {
+			singleReminderArray[9] = singleReminderArray[1]
+		}
+		
+		
+		if TOINT(_timearray[1]) < 10 {
+			singleReminderArray[2] = "0" + TOSTR(TOINT(singleReminderArray[2]))
+		}
+		
+		"\0\s[0]What date did you want to be reminded?\![open,dateinput,OnSetNewReminder,-1,%(year),%(month),%(day),--reference=date_entered]\e"
+	
+	} elseif reference2 == "date_entered" {
+		
+		singleReminderArray[4] = TOSTR(reference0[2])
+		singleReminderArray[5] = TOSTR(reference0[1])
+		singleReminderArray[6] = TOSTR(reference0[0])
+		
+		singleReminderArray[7] = TOSTR(GETSECCOUNT(singleReminderArray[6],singleReminderArray[5],singleReminderArray[4],0,singleReminderArray[9],singleReminderArray[2],0))
+	
+		_cur = GETSECCOUNT
+		_rem = TOINT(singleReminderArray[7]) 
+	
+		if _cur > _rem {
+			"\0\s[0]It seems you have set a reminder for a date in the past.\w8 Please set a time and date in the future\![open,inputbox,OnSetNewReminder,-1,XX:XX:AM,--reference=time_entered]\e"
+		}
+
+		"\0\s[0]Did you want to repeat this reminder?\n\n"
+		
+		"\![*]\q[Yes\, Daily,OnSetReminderFinish,daily]\n"
+		"\![*]\q[Yes\, Weekly,OnSetReminderFinish,weekly]\n"
+		"\![*]\q[Yes\, Every 30 Days,OnSetReminderFinish,every 30 days]\n"
+		"\![*]\q[No,OnSetReminderFinish,none]\n\e"
+	
+	}
+	"\0\s[0]Ok, what did you want me to remind you to do? \![open,inputbox,OnSetNewReminder,-1,--reference=note_entered]\e"
+
+
+}
+
+OnSetReminderFinish : all{
+	
+	singleReminderArray[8] = TOSTR(reference0)
+
+	"Ok. I will remind you at: \n%(singleReminderArray[1]):%(singleReminderArray[2]) %(singleReminderArray[3]) on %(singleReminderArray[5])/%(singleReminderArray[4])/%(singleReminderArray[6]) \nto: %(singleReminderArray[0])\w8\n"
+
+	if singleReminderArray[8] == "none" {
+	
+		"I will only remind you once.\w8 \n\n"
+	
+	} else {
+		"I will remind you %(singleReminderArray[8]).\w8 \n\n"
+	}
+	
+	allRemindersArray[ARRAYSIZE(allRemindersArray)] = singleReminderArray
+	
+	"\_q\0\s[0]Back to...\n\n[half]"
+	
+	"\![*]\q[Reminder menu,OnGenReminders]\n"
+	"\![*]\q[Productivity menu,OnProduMenu]\n"
+	"\![*]\q[Main menu,OnMenuRun]\e"
+	
+
+
+}
+
+//function to clean up/delete reminders that already passed
+OnUpdateReminders {
+
+	all:{ 
+		_arrLen = ARRAYSIZE(allRemindersArray);
+		_sec = GETSECCOUNT
+		for _i = ARRAYSIZE(allRemindersArray)-1; _i >= 0; _i-- {
+			
+			_item = allRemindersArray[_i]
+			
+				case _item[8] {
+				
+					when "daily" {
+					
+						if _sec >= _item[7] {
+						
+							while _sec >= _item[7] {
+								_item[7] = TOSTR(TOINT(_item[7]) + 86400)
+							}
+							
+							
+							_temp = GETTIME(TOINT(_item[7]))
+							
+							_item[9] = _temp[4]
+							
+							if (_temp[4]) > 11 {	
+								_item[3] = "PM"
+							} else {
+								_item[3] = "AM"
+							} 
+							if _temp[4] == 0 {
+								_temp[4] = 12
+							}
+							if _temp[4] > 12 {
+								_temp[4] -= 12
+							}
+
+							_item[1] = TOSTR(_temp[4]) //hour, to account for DST? i dont think i need it but w/e
+							_item[4] = TOSTR(_temp[2])//day
+							_item[5] = TOSTR(_temp[1])//month
+							_item[6] = TOSTR(_temp[0])//year
+							
+							allRemindersArray[_i] = _item
+						}
+					
+					} 
+					when "weekly"{
+					
+						if _sec >= _item[7] {
+						
+							while _sec >= _item[7] {
+								_item[7] = TOSTR(TOINT(_item[7]) + 604800)
+							}
+							_temp = GETTIME(TOINT(_item[7]))
+
+							
+							_item[9] = _temp[4]
+							
+							if (_temp[4]) > 11 {	
+								_item[3] = "PM"
+							} else {
+								_item[3] = "AM"
+							} 
+							if _temp[4] == 0 {
+								_temp[4] = 12
+							}
+							if _temp[4] > 12 {
+								_temp[4] -= 12
+							}
+							
+							
+							_item[1] = TOSTR(_temp[4]) //hour, to account for DST? i dont think i need it but w/e
+							_item[4] = TOSTR(_temp[2])//day
+							_item[5] = TOSTR(_temp[1])//month
+							_item[6] = TOSTR(_temp[0])//year
+							
+							allRemindersArray[_i] = _item
+						}
+					
+					}
+					when "every 30 days" {
+					
+						if _sec >= _item[7] {
+					
+							while _sec >= _item[7] {
+								_item[7] = TOSTR(TOINT(_item[7]) + 2592000)
+							}
+								
+							_temp = GETTIME(TOINT(_item[7]))
+							
+							
+							_item[9] = _temp[4]
+							
+							if (_temp[4]) > 11 {	
+								_item[3] = "PM"
+							} else {
+								_item[3] = "AM"
+							} 
+							if _temp[4] == 0 {
+								_temp[4] = 12
+							}
+							if _temp[4] > 12 {
+								_temp[4] -= 12
+							}
+							
+							_item[1] = TOSTR(_temp[4]) //hour, to account for DST? i dont think i need it but w/e
+							_item[4] = TOSTR(_temp[2])//day
+							_item[5] = TOSTR(_temp[1])//month
+							_item[6] = TOSTR(_temp[0])//year
+							
+							allRemindersArray[_i] = _item
+						}
+					}
+					others { //none
+					
+						if _sec >= _item[7] {
+						
+							allRemindersArray[_i] = IARRAY
+						}
+					}
+				
+				
+				
+				}
+			
+			
+			
+		
+		
+		}
+	}
+
+
+}
+
+OnDelayReminders : all {
+
+	if reference2 == "slided" {
+		
+		if (reference0 == 0) {
+		
+			"\0\s[0]No delay then.\n\n"
+			delayedRemindersArray[delayedRemindersArraySize] = IARRAY
+			delayedRemindersArraySize--
+		
+		} else {
+			_item = delayedRemindersArray[delayedRemindersArraySize]
+			_item[7] = TOSTR(TOINT(_item[7]) + reference0*60)
+			_temp = GETTIME(TOINT(_item[7]))
+			
+			_item[9] = _temp[4]
+			
+			if (_temp[4]) > 11 {	
+				_item[3] = "PM"
+			} else {
+				_item[3] = "AM"
+			} 
+			if _temp[4] == 0 {
+				_temp[4] = 12
+			}
+			if _temp[4] > 12 {
+				_temp[4] -= 12
+			}
+			if TOINT(_temp[5]) < 10 {
+				_temp[5] = "0" + _temp[5]
+			}
+
+			_item[1] = TOSTR(_temp[4]) //hour, to account for DST? i dont think i need it but w/e
+			_item[2] = TOSTR(_temp[5])//min
+			_item[4] = TOSTR(_temp[2])//day
+			_item[5] = TOSTR(_temp[1])//month
+			_item[6] = TOSTR(_temp[0])//year
+			
+			delayedRemindersArray[delayedRemindersArraySize] = _item
+			delayedRemindersArraySize--
+			
+			"I have delayed it to %(_item[1]):%(_item[2]) %(_item[3]).\n\n"
+		}
+		if delayedRemindersArraySize - originalSize < 0 {
+		
+			"There are no more reminders to delay."
+		
+		} else {
+		
+			_text = delayedRemindersArray[delayedRemindersArraySize][0]
+			"How long would you like to delay your reminder to %(_text) for, in minutes? Leave it at zero for no delay. \![open,sliderinput,OnDelayReminders,-1,30,0,60,--reference=slided]\e"
+		
+		}
+	
+	
+	} elseif reference0 =="nodelay"{
+	
+		for _i = delayedRemindersArraySize; _i >= 0; _i-- {
+			delayedRemindersArray[_i] = IARRAY //this should only delete reminders that were going to be delayed this round
+			LOGGING("%(delayedRemindersArray)\n")
+		}
+
+	}
+	else { 
+
+		_text = delayedRemindersArray[delayedRemindersArraySize][0]
+		"How long would you like to delay your reminder to %(_text) for, in minutes? Leave it at zero for no delay. \![open,sliderinput,OnDelayReminders,-1,30,0,60,--reference=slided]\e"
+	
+	}
+
+
+}
+
+OnDisplayReminders : all {
+
+	"\0\s[0]\b2\_q%(tmo)%(noscroll)Click a reminder to edit or delete it.\n\n[half]\f[bold,1]\f[align,center]Reminders\f[bold,0]\n\f[align,left]"
+
+
+	if ARRAYSIZE(allRemindersArray) == 0 {
+	
+			"None yet.\n\n[half]"
+	 
+	} else {
+		for _i=0; _i < ARRAYSIZE(allRemindersArray); _i++ {
+		
+			_item = allRemindersArray[_i]
+
+		"\f[color,default.anchor]\![*]\q [%(_item[0]),OnEditReminder,%(_i),allRemindersArray]\f[color,default]\n%(_item[1]):%(_item[2]) %(_item[3]), %(_item[5])/%(_item[4])/%(_item[6])\n"
+		
+			if _item[8] == "none" {
+				"Not repeated.\n\n[half]"
+			} else {
+				"Repeated %(_item[8]).\n\n[half]"
+			}
+
+		}
+	}
+	
+	
+	"\n[half]\f[bold,1]\f[align,center]Delayed Reminders\f[bold,0]\n\f[align,left]"
+	
+	if ARRAYSIZE(delayedRemindersArray) == 0 {
+	
+	"None yet.\n\n[half]"
+	 
+	} else {
+		for _i=0; _i < ARRAYSIZE(delayedRemindersArray); _i++ {
+		
+			_item = delayedRemindersArray[_i]
+		
+			"\f[color,default.anchor]\![*]\q [%(_item[0]),OnEditReminder,%(_i),delayedRemindersArray]\f[color,default]\n%(_item[1]):%(_item[2]) %(_item[3]), %(_item[5])/%(_item[4])/%(_item[6])\n\n[half]"
+
+		}
+	}
+	
+
+	"\n\0\s[0]Back to...\n\n[half]"
+	
+
+	"\![*]\q[Reminder menu,OnGenReminders]\n"
+	"\![*]\q[Productivity menu,OnProduMenu]\n"
+	"\![*]\q[Main menu,OnMenuRun]\e"
+
+
+}
+
+OnEditReminder : all{
+
+	_i = reference0
+	"\0\s[0]\b2\_q%(tmo)"
+	"\f[bold,1]\f[align,center]Edit/Delete Reminder\f[bold,0]\n\n[half]\f[align,left]"
+	
+	EVAL("_item = %(reference1)[%(reference0)]")
+
+	curReminder = (reference0,reference1) //save index and array 
+
+	"\f[bold,1]Reminder Note\f[bold,0]: \f[color,default.anchor]\q[%(_item[0]),OnEditComponent,note]\f[color,default]\n"
+	
+	"\f[bold,1]Reminder Time\f[bold,0]: \f[color,default.anchor]\q[%(_item[1]):%(_item[2]) %(_item[3]),OnEditComponent,time]\f[color,default]\n"
+	
+	"\f[bold,1]Reminder Date\f[bold,0]: \f[color,default.anchor]\q[%(_item[5])/%(_item[4])/%(_item[6]),OnEditComponent,date]\f[color,default]\n"
+	"\f[bold,1]Repeating?\f[bold,0]: \f[color,default.anchor]\q[%(_item[8]),OnEditComponent,repeat]\f[color,default]\n\n[half]"
+	
+	"\f[color,default.anchor]\q[Delete Reminder,OnDelConfirm,%(_i),%(reference1)]\f[color,default]\n\n"
+
+	"\0\s[0]Back to...\n\n[half]"
+	
+	"\![*]\q[View/Edit/Delete Reminders,OnDisplayReminders]\n"
+	"\![*]\q[Reminder menu,OnGenReminders]\n"
+	"\![*]\q[Productivity menu,OnProduMenu]\n"
+	"\![*]\q[Main menu,OnMenuRun]\e"
+
+}
+
+OnEditComponent: all {
+
+	if reference0 == "note" {
+		"\0\s[0]Ok, what did you want the new note to be? \![open,inputbox,OnEditComponent,-1,--reference=note_entered]\e"
+	} elseif reference2 == "note_entered" {
+		_note = SHIORI3FW.EscapeAllTags(reference0)
+		EVAL("_item = %(curReminder[1])[%(curReminder[0])]")
+		_item[0] = _note 
+		EVAL("%(curReminder[1])[%(curReminder[0])] = _item")
+		--
+		"\![raise,OnEditReminder,%(curReminder[0]),%(curReminder[1])]"
+	} elseif reference0 == "time" {
+	
+			"\0\s[0]Ok, what time did you want to be reminded?\w8 Please format it as Hours:Minutes:AM/PM\![open,inputbox,OnEditComponent,-1,XX:XX:AM,--reference=time_entered]\e"
+	
+	} elseif reference2 == "time_entered" {
+	
+		_timearray = SPLIT(reference0, ':')
+	
+		if (ARRAYSIZE(_timearray) != 3) || !(ISINTSTR(_timearray[0]+'')) || !(ISINTSTR(_timearray[1]+'')) || TOINT(_timearray[0]) < 0 || TOINT(_timearray[0]) > 12 || TOINT(_timearray[1]) < 0 || TOINT(_timearray[1]) > 59 || !(TOLOWER(_timearray[2]) == "am" || TOLOWER(_timearray[2]) == "pm"){
+			
+			"\0\s[0]That is an incorrect time.\w8 Please try again.\![open,inputbox,OnEditComponent,-1,XX:XX:AM,--reference=time_entered]\e"
+		
+		}
+		EVAL("_item = %(curReminder[1])[%(curReminder[0])]")
+		_item[1] = TOSTR(TOINT(_timearray[0])) //get rid of any leading 0's
+		_item[2] = _timearray[1]
+		_item[3] = TOUPPER(_timearray[2])
+		
+		if _item[3] == "AM" && _item[1] == "12" {
+			_item[9] = "0"
+		} elseif _item[3] == "PM" && TOINT(_item[1]) < 12 {
+			_item[9] = TOSTR(TOINT(_item[1])  + 12)
+		} else {
+			_item[9] = _item[1]
+		}
+		
+		
+		if TOINT(_timearray[1]) < 10 {
+			_item[2] = "0" + TOSTR(TOINT(_item[2]))
+		}
+	
+		_item[7] = TOSTR(GETSECCOUNT(_item[6],_item[5],_item[4],0,_item[9],_item[2],0))
+		_cur = GETSECCOUNT
+		_rem = TOINT(_item[7]) 
+		
+		if _cur > _rem {
+		
+			"\s\[0]It seems you have set a reminder for a time in the past.\w8 Please set a time in the future\![open,inputbox,OnEditComponent,-1,XX:XX:AM,--reference=time_entered]\e"
+		
+		} else {
+		
+			EVAL("%(curReminder[1])[%(curReminder[0])] = _item")
+			"\![raise,OnEditReminder,%(curReminder[0]),%(curReminder[1])]"
+		
+		}
+		
+	} elseif reference0 == "date" {
+	
+			"\0\s[0]What date did you want to be reminded?\![open,dateinput,OnEditComponent,-1,%(year),%(month),%(day),--reference=date_entered]\e"
+	
+	} elseif reference2 == "date_entered" {
+		EVAL("_item = %(curReminder[1])[%(curReminder[0])]")
+		_item[4] = TOSTR(reference0[2])
+		_item[5] = TOSTR(reference0[1])
+		_item[6] = TOSTR(reference0[0])
+		_item[7] = TOSTR(GETSECCOUNT(_item[6],_item[5],_item[4],0,_item[9],_item[2],0))
+		_cur = GETSECCOUNT
+		_rem = TOINT(_item[7]) 
+		
+		if _cur > _rem {
+		
+			"\0\s[0]It seems you have set a reminder for a date in the past.\w8 Please set a date in the future\![open,dateinput,OnEditComponent,-1,%(year),%(month),%(day),--reference=date_entered]\\e"
+		
+		} else {
+		
+			EVAL("%(curReminder[1])[%(curReminder[0])] = _item")
+			"\![raise,OnEditReminder,%(curReminder[0]),%(curReminder[1])]"
+		
+		}
+	
+	} elseif reference0 == "repeat" {
+	
+		"\0\s[0]Do you want to repeat this reminder?\n\n"
+		
+		"\![*]\q[Yes\, Daily,OnEditComponent,daily]\n"
+		"\![*]\q[Yes\, Weekly,OnEditComponent,weekly]\n"
+		"\![*]\q[Yes\, Every 30 Days,OnEditComponent,every 30 days]\n"
+		"\![*]\q[No,OnEditComponent,none]\n\e"
+	
+	} else {
+		EVAL("_item = %(curReminder[1])[%(curReminder[0])]")
+		_item[8] = TOSTR(reference0)
+		EVAL("%(curReminder[1])[%(curReminder[0])] = _item")
+		"\![raise,OnEditReminder,%(curReminder[0]),%(curReminder[1])]"
+	
+	}
+
+}
+
+OnDelConfirm : all{
+
+	_i = reference0
+	_ar = reference1
+	EVAL("_item = %(reference1)[%(reference0)]")
+	
+	"\0\s[0]Are you sure you want to delete your reminder to %(_item[0])?\n\n"
+
+	"\![*]\q[Yes,OnDelReminder,%(_i),%(_ar)]\n"
+	"\![*]\q[No,OnDisplayReminders]\n"
+
+}
+
+
+OnDelReminder{
+
+	EVAL("%(reference1)[%(reference0)] = IARRAY")
+
+	--
+	OnDisplayReminders
+
+}
+
+OnGoogle{
+
+	"\0\s[0]Really?\w8 Fine.\w8 What did you want to look up?"
+	--
+	"\![open,inputbox,OnGoogled,-1]"
+
+
+}
+OnGoogled{
+
+	_san = SHIORI3FW.EscapeAllTags(reference0)
+
+	"\![open,browser,https://www.google.com/search?q=%(reference0)]"
+	--
+	"Did that answer all your questions?"
+	--
+	all:{
+	
+	"\n\n\0\s[0]Back to...\n\n[half]"
+	
+	"\![*]\q[Productivity menu,OnProduMenu]\n"
+	"\![*]\q[Main menu,OnMenuRun]\e"
+	}
+}

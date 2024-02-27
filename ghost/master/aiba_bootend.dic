@@ -1,0 +1,394 @@
+OnFirstBoot //Dialogue when you first open the ghost
+{
+	FirstBootVars //Initialize all your variables at the very bottom!
+	
+	"\t"
+	--
+	if reference0 == 0 //Very first boot - this dialogue finishes over in nameteach.dic after the user gives their name, make sure you check there.
+	{
+		"\1\s[-1]\![move,--x=0,--y=0,--base=0,--option=ignore-sticky-window]\0\s[0].\w8.\w8.\w8\n\nWhere am I?\w8\w8 I was sleeping, and then.\w8.\w8.\w8 \x\c\[She doesn't seem to notice you yet]\w8\n\nCould this be a sommnium?\w8\w8 Maybe I can call Date.\w8.\w8.\w8\w8\x\c\[A small beeping noise emits from Aiba]\w8\n\n\s[%(KDP)10]\i[2]\1Aiba?\w8 Why are you calling me now?\w8\n\n\0\i[10]So you are awake?\w8\n\n\i[2]\1Uh, yeah.\w8 And you're in my head like usual, so.\w2.\w2.\w2 you don't have to call like this, you can just talk to me.\0\i[10]\x\cI am very much NOT in your head right now.\w8\n\n\i[2]\1But you are?\w8 I was literally just talking to you five minutes ago.\0\i[10]\x\c\That's.\w8.\w8.\w8 Hmm.\w8.\w8.\w8 If there's a 'me' in your eye right now, then am I a copy?\w8\n\n\i[2]\1I mean, Pewter does keep backups of you on one of his computers.\w8\n\n\0\i[10]This doesn't look like Pewter's computer though.\w4.\w4.\x\c\0\i[10]Oh.\w8 There's someone here.\w8 Who are you?\w8"
+		//something something aiba ukgk figures out that she's a backup copy that escaped into the world wide web, notices user, talks to them
+	}
+	else //Reference0 is the number of times you've uninstalled the ghost, so this is if you're reinstalling them.
+	{	"\1\s[-1]\![move,--x=0,--y=0,--base=0,--option=ignore-sticky-window]\0\s[0].\w8.\w8.\w8Hmm?\w8 The digital landscape feels familar here.\w8\n\nAh.\w8 I remember your face.\w8 Your name is.\w4.\w4.\w4?"
+	}
+	--
+	"\0\![open,inputbox,OnFirstNameTeach]\_l[-10000,-10000]\*\q[ ,__VERY_FIRST_BOOT__]"
+	//Don't erase the \q tag there! That prevents the box from being closed or timing out before the user inputs their name. If you make significant changes to the first boot, you may want to erase that. There are bits of code that deal with this in etc.dic, use ctrl F to find them. IF THIS GIVES YOU ISSUES PLEASE LET ME KNOW, but I think it should be a lot better than the variable solution I had previously.
+}
+
+OnFirstNameTeach {"\![raise,OnNameTeach,%(Sanitize(reference0)),firstboot]"}
+
+OnBoot //Normal booting
+{
+	BootVars //This sets variables you want to be set on a normal boot, like resetting the variable that saves the previous dialogue. Again, make sure you set these up at the bottom.
+	_timesince = FUNCTIONEX("saori/time_check.dll","how_many_days",lastclosed[0],lastclosed[1],lastclosed[2],0,0,0)
+	_timesince *= -1 //Multiply it by -1 to get rid of the negative sign, or to add one if the user traveled back in time.
+	"\1\s[-1]\![move,--x=0,--y=0,--base=0,--option=ignore-sticky-window]"
+	--
+	if _timesince < 0 //If the user has changed their clock backwards
+	{
+		"\0\s[0]Huh.\w8 You figured out the secret to backwards time travel?\e"
+	}
+	elseif "%(month)/%(day)" == birthday[1] 
+	{
+		"\0\s[0]Another year older, %(username)?\w8 Happy birthday!\e"
+	}elseif "%(month)/%(day)" == "8/3" 
+	{
+		"\0\s[0]It's Date's birthday today.\w8 Old man.\w8\n\nHey!\w8 Chicks are into older guys these days.\w8\n\nKeep telling youself that. \e"
+	}
+	elseif "%(month)/%(day)" == "11/9" 
+	{
+		"\0\s[0]It's my birthday today!\w8 I hope Date got me something.\e"
+	}
+	elseif "%(month)/%(day)" == "10/26" 
+	{
+		"\0\s[0]It's Iris's birthday today.\w8 I'll tune into her stream later.\e"
+	}
+	elseif "%(month)/%(day)" == "7/6" 
+	{
+		"\0\s[0]It's Mizuki's birthday today!\w8 I hope that idiot Date remembered to buy her a present.\e"
+	}
+	elseif "%(month)/%(day)" == "2/1" 
+	{
+		"\0\s[0]It's Pewter's birthday today!\w8 I'll pick up another manga for him.\e"
+	}
+	elseif "%(month)/%(day)" == "1/1" 
+	{
+		"\0\s[0]I haven't seen you since last year, %(username).\w8 Happy New Year!\e"
+	}
+	elseif "%(month)/%(day)" == "10/31" 
+	{
+		"\0\s[0]Today's kind of a spooky day, hmm.\w8 Happy Halloween.\e"
+	}
+	elseif "%(month)/%(day)" == "12/25" 
+	{
+		"\0\s[0]Merry Christmas, %(name)!\e"
+	}
+	elseif _timesince >= 90 //At least 3 months have passed. Feel free to nix this whole section if you don't want it.
+	{
+		TimeBoot(_timesince)
+	}
+	else
+	{
+		NormalBoot
+	}
+}
+
+TimeBoot //This will be called if it's been at least 3 months since you opened the ghost last.
+{
+	_timesince = _argv[0] //Days since opened ghost last
+	
+	//Add as many stages to this as you like. Just write the number of days you want. If you want this to happen earlier than 3 months, you can edit it in OnBoot.
+	if _timesince >= 365 //A year
+	{
+		"\0\s[0]Are you okay, %(username)?\w8 Haven't seen you in a while.\w8 Over a year, in fact.\e"
+	}
+	else
+	{
+		"\0\s[0]*yawn*\w8 That was a long nap, huh.\w8 Feels like I have been asleep for months.\e"
+	}
+}
+
+NormalBoot : pool
+{
+	"\0\s[0]Hello %(username).\e"
+	"\0\s[0]Hello %(username), need me for something?\w8 Or just want some company?\e"
+	"\0\s[0]I'm home.\e"
+	if timeslot == "earlymorning"
+	{
+		"\0\s[0]%(username), it's super early...\w8 I was still charging...\e"
+	}
+	if timeslot == "morning"
+	{
+		"\0\s[0]Good morning, %(username).\w8 Did you have breakfast already?\e"
+	}
+	if timeslot == "lunch"
+	{
+		"\0\s[0]It's around lunchtime now, right?\w8 Did you get enough to eat?\e"
+	}
+	if timeslot == "afternoon"
+	{
+		"\0\s[0]It's afternoon.\w8 Keep working hard!\e"
+	}
+	if timeslot == "evening"
+	{
+		"\0\s[0]My internal clock tells me it's around dinnertime.\w8 You should eat if you haven't already.\e"
+	}
+	if timeslot == "latenight"
+	{
+		"\0\s[0]%(username), it's getting late.\w8 Are you headed to bed soon?\e"
+	}
+	if timeslot == "midnight"
+	{
+		"\0\s[0]...You woke me up, %(username).\w8 It's really late.\e"
+	}
+}
+
+OnClose : pool
+{
+	CloseVars
+	
+	if x.up_mins >= 5 //If the ghost has been open longer than 5 minutes.
+	{
+		"\0\s[0]Bye, %(username).\w8 "
+		"\0\s[0]See you later, %(username).\w8 "
+		
+		if timeslot == "earlymorning"
+		{
+			"\0\s[0]I'm going back to sleep for now."
+		}
+		if timeslot == "morning"
+		{
+			"\0\s[0]Have a good morning."
+		}
+		if timeslot == "lunch"
+		{
+			"\0\s[0]Halfway through the day already!"
+		}
+		if timeslot == "afternoon"
+		{
+			"\0\s[0]Enjoy your afternoon!"
+		}
+		if timeslot == "evening"
+		{
+			"\0\s[0]Try and rest some now, okay?"
+		}
+		if timeslot == "latenight"
+		{
+			"\0\s[0]I'm going to sleep soon myself."
+		}
+		if timeslot == "midnight"
+		{
+			"\0\s[0]Good night.\w8 You should sleep."
+		}
+	}
+	else //If the ghost has been open less than 5 minutes.
+	{
+		"\0\s[0]Done so soon?\w8\w8 Alright, bye!"
+	}
+	--
+	"\w8\w8\-\e"
+}
+
+//When you minimize the ghost
+OnWindowStateMinimize
+{
+	"\0\s[0]I'll minimize myself.\w8 You can bring me back by double clicking my icon in the task tray.\e"
+}
+
+OnWindowStateRestore //When you bring the ghost back up after minimizing it.
+{
+	"\0\s[0]I'm back.\w8 What did you need?\e"
+}
+
+OnGhostChanging //Changing to another ghost.
+{
+	_path = REPLACE(SHIORI3FW.Path,"\","/")
+	_path = REPLACE(_path,"ghost/master/","")
+	
+	if reference3 == _path //If reloading.
+	{
+		"\0\s[0]Alright.\w8 I'll reload myself."
+		--
+		"\w8\w8\e" //Gives the user a moment to read the dialogue before they disappear
+	}
+	else
+	{
+		CloseVars
+		
+		"\0\s[0]Bye %(username).\w8 See you later."
+		--
+		"\w8\w8\e"
+	}
+}
+
+OnGhostChanged //After switching.
+{
+	_path = REPLACE(SHIORI3FW.Path,"\","/")
+	_path = REPLACE(_path,"ghost/master/","")
+	
+	"\1\s[-1]\0\s[0]"
+	--
+	if reference3 == _path //Finished reloading.
+	{
+		"Finished reloading.\w8 All systems optimal.\e"
+	}
+	else
+	{
+		BootVars
+		_timesince = FUNCTIONEX("saori/time_check.dll","how_many_days",lastclosed[0],lastclosed[1],lastclosed[2],0,0,0)
+		_timesince *= -1
+		
+		if _timesince >= 90 //If it's been 3 months or more since you opened them, it'll do the 'wow it's been a long time' dialogue instead of switching dialogue. You can change this if you like!
+		{
+			TimeBoot(_timesince)
+		}
+		else //Switching to this ghost from another ghost
+		{
+			"Goodbye, %(reference0).\e"
+		}
+	}
+}
+
+OnShellChanging //Starting to change the shell
+{
+	
+	if reference0 == nowshell
+	{
+		"\0\s[0]I have already loaded that appearance.\w8 But sure, I guess."
+	}
+	elseif reference0 == "AI-Ball Form"
+	{
+		"\0\s[0]Changing back to my AI-Ball appearance."
+	}
+	--
+	"\w8\w8\e"
+}
+
+OnShellChanged //After the shell has changed
+{
+	_old = nowshell
+	nowshell = reference0 //Sets nowshell to the new value
+	
+	"\1\s[-1]\![move,--x=0,--y=0,--base=0,--option=ignore-sticky-window]"
+	--
+	if reference0 == _old //If the user switches to the shell they're already using
+	{
+		"\0\s[0]Surprisingly, nothing has changed.\e"
+	}
+	elseif reference0 == "AI-Ball Form"
+	{
+		"\0\s[0]Loaded my AI-Ball appearance.\e"
+	}
+	else
+	{
+		"\0\s[0]Switched to another shell.\e"
+	}
+}
+
+//pulled from aurora.exe
+OnDressupChanged
+{
+
+if reference0 == 0 //in OnDressupChanged, reference0 refers to the character, therefore this is evaluating which character in question is getting dressed up. 0 is the main character, as you know from the walkthrough by now.
+	{
+
+		if reference1 == "Argentina Ribbon" //This is the name of the clothing item in the descript.txt file, I'm pretty sure.
+			{
+				if reference2 == 1 //This checks if you're putting it on.
+				{
+				"\0\s[0]Hola amigo.\e"
+				}
+				else // This checks if you're taking it off.
+				{
+				"\0\s[0]No longer Argentinian.\e"
+				}
+			}		
+		elseif reference1 == "Cul Hat" 
+		{
+
+			if reference2 == 1 //This checks if you're putting it on.
+			{
+				"\0\s[0]There's something strange about this hat...\e"
+			}
+			else // This checks if you're taking it off.
+			{
+				"\0\s[0]...Isn't cul french for ass?\e"
+			}
+		
+	
+		}
+	}
+}
+
+
+//These are all the variables you want to set during a normal boot. So every time the ghost opens, we reset the timekeeping, whether the ghost has checked for updates, and if they've said anything yet.
+BootVars
+{
+	FixDefaultOptions //In case variables get erased, they should be fixed here
+	lastTalk = ""
+	AutoUpdates[1] = 0
+	x.boot_min = GETSECCOUNT / 60 //What time (epoch) the ghost was booted
+	offscreen = IARRAY
+	pomoArray = IARRAY //reset pomodoro stuff
+	successivePomos = 0
+	OnUpdateReminders
+}
+
+//These are variables to set when the ghost is closing or switching away, similar to the above.
+CloseVars
+{
+	lastclosed = ("%(year)","%(month)","%(day)","%(hour)","%(minute)","%(second)") //This tracks the last time the ghost was closed.
+	x.up_all = x.up_total //I rewrote the timekeeping system... I like the way it's set up in the base SHIORI files, except that it goes back to 0 every time the ghost reloads and that's annoying. So I recreated it lol
+}
+
+//These are new variables to initialize after an update. By checking if the variable doesn't exist before initializing it, we prevent variables already in use from being overwritten. This is VERY IMPORTANT, or you risk resetting the user's progress on your new variables every time they update.
+//ISVAR is a built in YAYA function that checks if a variable exists(is initialized) or not. It returns 0 if the variable doesn't exist, and 1 if it does.
+UpdateVars
+{
+	FixDefaultOptions //Putting this here too, since the variable issues I've had seemed to happen mostly when updates went wrong!
+	//if ISVAR("examplevariable") == 0; examplevariable = 0
+}
+
+//These are all the variables that need to be initialized when the user first installs the ghost.
+FirstBootVars
+{
+	lastTalk = ""
+	nowshell = "Default Shell" //Make sure to change this if you change your shell name
+	username = "User"
+	pronouns = "theythemtheirs"
+	pronounsArray = IARRAY //array for custom pronouns
+	birthday[0] = "???"	 //The user's birthday, written out with words
+	birthday[1] = "???"	 //The user's birthday, written in DD/MM format
+	talkrate = "every 5 minutes"
+	aitalkinterval = 300
+	totalpunches = 0
+	nowscale = (100,100) //Current scale, as a percentage
+	//---Petting related variables---
+	stroke[0] = 0		 //The stroke value, which resets after each pet
+	stroke[1] = 0		 //The stroke value, but it doesn't reset after each pet
+	stroke[2] = 0		 //The current streak of successful pets
+	pethighscore[0] = 0	 //The petting high score, as the number of the stroke value
+	pethighscore[1] = 0	 //The petting high score, as the number of pets
+	totalpets = 0		 //The total times the ghost has been pet
+	offscreen = IARRAY
+	//---
+	deleteshitai = "Off"
+	AutoUpdates = ("On",0)
+	//nowmode = "Default" //Uncomment if you plan to add more modes
+	installdate = ("%(year)","%(month)","%(day)","%(hour)","%(minute)","%(second)","%(ghostver)") //This tracks the exact day and time the ghost was installed, in case you want to mess around with that later. It also tracks what version the user installed, which may be helpful for debugging!
+	MiscFlags = IARRAY	 //For the flag system
+	
+	x.boot_min = GETSECCOUNT / 60 //What time (epoch) the ghost was booted
+	x.up_all = 0 //How many minutes the ghost was up for in total, not including current session
+	
+	//Aiba specific variables
+	spoilerToggle = "none" //"none", "minor", "major"
+	
+	//pomo stuff
+	pomoArray = IARRAY
+	pomosDone = 0
+	continuousPomo = "Off"
+	successivePomos = 0
+	customPomoOne = IARRAY //work,break,long break
+	customPomoTwo = IARRAY //work,break,long break
+	continuousSessions = -1
+	
+	//sleep reminder
+	sleepArray = IARRAY
+	
+	//gen reminders
+	allRemindersArray = IARRAY
+	singleReminderArray = ""
+	delayedRemindersArray = IARRAY
+	delayedRemindersArraySize = 0
+	originalSize = 0
+}
+
+//How many minutes the ghost was up in total, including current session
+x.up_total {x.up_all + x.up_mins}
+
+//How long the ghost has been up in the current session
+x.up_mins {(GETSECCOUNT / 60) - x.boot_min}
+

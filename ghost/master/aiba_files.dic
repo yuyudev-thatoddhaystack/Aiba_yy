@@ -1,0 +1,833 @@
+
+OnFilesMenu : all {
+
+	"\0\_q"
+	"\![*]\q[Personnel,OnPersonnelMenu]\n"
+	"\![*]\q[Key Terms,OnKeyTermsMenu]\n"
+
+	"\n\![*]\q[Back to the menu,OnMenuRun]\e"
+
+}
+OnPersonnelMenu : all {
+
+	"\0\_q\![set,autoscroll,disable]\b2Here you can read up on people Date or I have mentioned.\n\n[half]"
+	"[Please note that if you are using a balloon other than the AI:TSF balloon the personnel files may appear strangely]\n\n"
+	
+
+	"\_a[OnDateInfo]Kaname Date\_a\n"
+	"\_a[OnAibaInfo]Aiba\_a\n"
+	if Flag ("UserKnowsIris") {
+	
+		"\_a[OnIrisInfo]Iris Sagan\_a\n"
+	
+	}	
+	if Flag ("UserKnowsHitomi") {
+	
+		"\_a[OnHitomiInfo]Hitomi Sagan\_a\n"
+	
+	}
+	if Flag ("UserKnowsMizuki") {
+	
+		"\_a[OnMizukiInfo]Mizuki Okiura\_a\n"
+	
+	}
+	if Flag ("UserKnowsRenju") {
+	
+		"\_a[OnRenjuInfo]Renju Okiura\_a\n"
+	
+	}
+	if Flag ("UserKnowsShoko") {
+	
+		"\_a[OnShokoInfo]Shoko Nadami\_a\n"
+	
+	}
+	if Flag ("UserKnowsOta") {
+	
+		"\_a[OnOtaInfo]Ota Matsushita\_a\n"
+	
+	}
+	if Flag ("UserKnowsMayumi") {
+	
+		"\_a[OnMayumiInfo]Mayumi Matsushita\_a\n"
+	
+	}
+	if Flag ("UserKnowsTakero") {
+	
+		"\_a[OnTakeroInfo]Takero Matsushita\_a\n"
+	
+	}
+	if Flag ("UserKnowsSo") {
+	
+		"\_a[OnSoInfo]So Sejima\_a\n"
+	
+	}
+	if Flag ("UserKnowsBoss") {
+	
+		"\_a[OnBossInfo]Boss\_a\n"
+	
+	}
+	if Flag ("UserKnowsPewter") {
+	
+		"\_a[OnPewterInfo]Pewter\_a\n"
+	
+	}
+	if Flag ("UserKnowsMama") {
+	
+		"\_a[OnMamaInfo]Mama\_a\n"
+	
+	}
+	if Flag ("UserKnowsMoma") {
+	
+		"\_a[OnMomaInfo]Moma Kumakura\_a\n"
+	
+	}
+	if Flag ("UserKnowsRohan") {
+	
+		"\_a[OnRohanInfo]Rohan Kumakura\_a\n"
+	
+	}
+	if Flag ("UserKnowsManaka") {
+	
+		"\_a[OnManakaInfo]Manaka Iwai\_a\n"
+	
+	}
+	if Flag ("UserKnowsSaito") {
+	
+		"\_a[OnSaitoInfo]Saito Sejima\_a\n"
+	
+	}	
+	if Flag ("UserKnows89") {
+	
+		"\_a[On89Info]#89\_a\n"
+	
+	}
+	if Flag ("UserKnowsFalco") {
+	
+		"\_a[OnFalcoInfo]Falco\_a\n"
+
+	}
+	if Flag ("UserKnowsBodyguard") {
+	
+		"\_a[OnBodyguardInfo]Bodyguard\_a\n"
+
+	}
+	if Flag ("UserKnowsYakuzaA") {
+	
+		"\_a[OnYakuzaAInfo]Chinpei Wagai\_a\n"
+
+	}
+	if Flag ("UserKnowsYakuzaB") {
+	
+		"\_a[OnYakuzaBInfo]Dokuta Yogano\_a\n"
+
+	}
+	if Flag ("UserKnowsNurse") {
+	
+		"\_a[OnNurseInfo]Hanayo Nasu\_a\n"
+
+	}
+	if Flag ("UserKnowsRitsuko") {
+	
+		"\_a[OnRitsukoInfo]Ritsuko Enshuu\_a\n"
+
+	}
+	if Flag ("UserKnowsAmame") {
+	
+		"\_a[OnAmameInfo]Amame Doi\_a\n"
+
+	}
+	if Flag ("UserKnowsTaxiDriver") {
+	
+		"\_a[OnTaxiDriverInfo]Takushi Ibarado\_a\n"
+
+	}
+	if Flag ("UserKnowsKagami") {
+	
+		"\_a[OnKagamiInfo]Araya Kagami\_a\n"
+
+	}
+
+
+	"\n\![*]\q[Back to the menu,OnMenuRun]\e"
+}
+
+OnSoInfo : all{
+
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]So Sejima\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 60\n\n[half]"
+
+	"\_b[icons\so,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 12/7\n\n[half]"
+	"\f[bold,1]Profession: \f[bold,0]Congressman\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Authority, Fame, Assets\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Anything that threatens the above\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Mahjong, Golf, Nishiki carp breeding\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Grasping people's weaknesses, applying pressure, and making them obey\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]So is a member of the post-war generation. He grew up poor, which gave him two things: his motivation for seeking power and wealth and his vindictiveness towards the upper class.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+
+
+OnDateInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Kaname Date\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	if spoilerToggle == "major" {
+		"\f[bold,1]Age:\f[bold,0] 42\n\n[half]"
+		"\_b[icons\datepostgame,180,25,--option=use_self_alpha]"
+	} else {
+		"\f[bold,1]Age:\f[bold,0] 30\n\n[half]"
+		"\_b[icons\date,180,25,--option=use_self_alpha]"
+	}
+
+	
+	"\f[bold,1]Birthday:\f[bold,0] 8/3\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Police officer of Advanced Brain Investigation Squad, Metropolitan Police Department\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Classic Cars, Curry, Bonito, Pelvises, Reika\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Soft-boiled eggs, Punk Kids, Ghosts\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Collects vintage magazines\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Reaction time increases 3.6 times under certain condtions\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]As a Psyncer, Date uses the Psync machine to dive into the minds of suspects of persons of interest. He lost his eye six years ago, but replaced it with a prosthetic eye which houses an adcanced artificial intelligence known as an AI-Ball. He also lost all of his memories past six years ago.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+
+OnAibaInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Aiba/AI-Ball\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 5\n\n[half]"
+
+	"\_b[icons\aibagummy,140,25,--option=use_self_alpha]"
+	"\_b[icons\aibahuman,220,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 11/9\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Investigation Assistant\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Insects, Spiders, Crustaceans, 1010000011110101\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Dirty jokes, Going outside the simulation\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Sneaks outside of Date's eye socket while he's sleeping and makes mischief\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Hacking, Fluoroscopy, Voice Imitation, 3D Modeling\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Aiba is an autonomous artificial intelligence. She usually takes the shape of an eyeball and resides in Date's left eye socket. She assists Date by gathering information, connecting to networks and databases, and using her X-ray and thermographic functions.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnIrisInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Iris Sagan\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 18\n\n[half]"
+
+	"\_b[icons\iris,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 10/26\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]High School Senior, Internet Idol\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Singing, Dancing, The Occult, Irises, Mizuki\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Scary people\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Singing, Dancing, Let's plays\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Runs extremely fast\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Iris is an internet idol (musician) belonging to the entertainment office Lemniscate. Her stage name is %(CHR(34))A-set%(CHR(34)), but her fans call her %(CHR(34))Tesa.%(CHR(34)) She is Hitomi's daughter and good friends with Ota and Mizuki.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+
+OnHitomiInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Hitomi Sagan\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 37\n\n[half]"
+
+	"\_b[icons\hitomi,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 5/11\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Elementary School Teacher\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Children, Okonomiyaki, Friends, Iris, Mizuki\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Antisocial people, War, Sickness\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Reading, Gardening, Watching zombie movies\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Plays the video game involving shooting down alien invaders\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Hitomi is Iris's mother and unmarried. Her parents died in an accident when she was 17. She raised Iris alone. Due to an injury in the past, she can't move her right arm.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnMizukiInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Mizuki Okiura\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 12\n\n[half]"
+
+	"\_b[icons\mizuki,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 7/6\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]6th Grader\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Tonkotsu Ramen, Stew, Unagi, Metal Pipes, Iris\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Raw seafood, How Date holds chopsticks\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Breeding Clione, Collecting Adorabbit merch\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Studies martial arts and enjoys emotionally attacking Date\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Mizuki is Renju Okiura and Shoko Nadami's daughter. Although she is not related to Date, he became her de facto guardian about four years ago. The two have lived under one roof ever since.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnRenjuInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Renju Okiura\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 37\n\n[half]"
+
+	"\_b[icons\renju,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 4/13\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Entertainment Company and Maid Café Manager\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Unusual things\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Ordinary things\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Work\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Enjoys songwriting\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Renju manages the entertainment office Lemniscate and maid cafe Sunfish Pocket. He is the ex-husband of Shoko Nadami and Mizuki's father. He has been Date's close friend for about five years.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+
+OnShokoInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Shoko Nadami\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 36\n\n[half]"
+
+	"\_b[icons\shoko,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 1/4\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Investment Company Representative/Director\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]To be envied and praised\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Someone who hurt her in the past\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Winery tours, Scandinavian furniture collecting, Pilates\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Lying, Cheating\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Shoko is the ex-wife of Renju Okiura and Mizuki's mother. On a Friday night in November, she was found on the merry-go-round in the defunct amusement park known as %(CHR(34))Bloom Park.%(CHR(34)) Her left eye socket was hollowed out.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+
+OnOtaInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Ota Matsushita\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 24\n\n[half]"
+
+	"\_b[icons\ota,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 6/8\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Light Novel Author (Self-Declared)\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]A-set (Tesa), Chocolate\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Tesa's Enemies, Preachy people\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Net Idols, Maid Cafes\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Lying, Cheating\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Ota is Mayumi's son. An enthusiastic follower of A-Set, he often pushes the boundary between idols and fans. He writes his own light novels and gets editing advice from his friend Mizuki.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnMayumiInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Mayumi Matsushita\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 54\n\n[half]"
+
+	"\_b[icons\mayumi,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 8/31\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Part-time Worker\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Floral patterns, Ota, Takero\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Witches, Everything that witch does\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Cleaning the Shop, Making Soy Sauce\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Everyday Cuisine, Obscure Puns\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Mayumi is Ota's mother. Over 30 years ago, she and her husband took out significant loans to open Matsushita Diner near the Kabasaki District. She has been running the diner ever since. Lately, her memory has begun to get spotty.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnTakeroInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Takero Matsushita\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 55\n\n[half]"
+
+	"\_b[icons\takero,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 2/15\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Owner of Matsushita Diner\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Mayumi, Ota, Matsushita Diner\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Customers who don't finish their food\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Fishing, Shogi\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Backflips, Throwing knives\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Takero is an ardent student of cooking and very particular about the ingredients he uses. Therefore, his diner attracted many customers but did not make a significant profit. Helping Mayumi was his first priority, decreasing his focus on the diner.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+
+OnBossInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Boss\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 42\n\n[half]"
+
+	"\_b[icons\boss,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 12/21\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Commander of ABIS, the special investigation team of the Metropolitan Police Deparment\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Wine, Gourd dolls, Anything black\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Happy families, Ex-boyfriends, MPD's Director, Decluttering and organizing\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Going to clubs in Kabukicho\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Grasping people's weaknesses, applying pressure, and making them obey\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Boss is Date's direct superior and long-time friend. She appears to be an easygoing optimist with a carefree attitude, but she is as cunning as a fox with a quick wit.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnPewterInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Pewter (Futa Amanoma)\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 36\n\n[half]"
+
+	"\_b[icons\pewter,190,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 2/1\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Engineer at ABIS, the special investigation team of the Metropolitan Police Deparment\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Multiples of 16, Chairs, Tokoroten, Amore\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Bugs, Cats, Conservatives, Cyclopes\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Working with machines, Collecting doujins, Magical girls\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Building models, Imitating vuvuzelas\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Pewter is ABIS's engineer and a brilliant scientist. Currently, he is responsible for maintaining the Psync machine and preparing Psyncs. He also invented AIBA (and set her personality to his liking).\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnMamaInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Mama (Osamu Oishi)\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Gender neutral\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 36\n\n[half]"
+
+	"\_b[icons\mama,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 10/11\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Tending bar, Selling information\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Loincloths, Switching, Making them touch\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Hate crimes, Customers who throw up in the bar\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Polishing bonito, Watching videos\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Has the uncanny ability to detect virginity\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Mama owns the bar %(CHR(34))Marble%(CHR(34)) in Golden Yokocho in Shinjuku. Date and Okiura are regulars there and she knows them well. She is also an information broker in the criminal underworld.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnMomaInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Moma Kumakura\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 48\n\n[half]"
+
+	"\_b[icons\moma,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 9/28\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Kumakura Boss\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Humanity and justice, Chivalry, Gandhi, Pandas, Women\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Old-fashioned and irrational traditions\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Watching dance, Collecting art, Hot springs vacations\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Shooting, Magic tricks, Beatboxing\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Moma became the leader of the Kumakura yakuza gang after his predecessor stepped down several years ago. In the past, the Kumakuras were known for being ruthless and violent, but Moma hopes to make the group more peaceful and business-minded.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnRohanInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Rohan Kumakura\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 53\n\n[half]"
+
+	"\_b[icons\rohan,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 1/18\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Previous Kumakura Boss\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Guns, Drugs, Money, Women, Power\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Betrayal, Rival gangs, Cops\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Politics, Investment fraud, Organ trading, Land speculation\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Torture\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Rohan used to be the leader of the Kumakura gang. About one year ago, he committed suicide by jumping from the roof of a building. He was known for his horrific torture technique of peeling his victim's skin from toe to thigh.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnManakaInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Manaka Iwai\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 19\n\n[half]"
+
+	"\_b[icons\manaka,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 3/28\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]University Student\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Hitomi, Renju, Her daughter\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Killing\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Studying international politics\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Ballroom dancing\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Iris's real mother. After graduating from high school, she started seeing So Sejima and became pregnant with Iris. Just after giving birth, she went to meet So in the Warehouse District and was never seen again.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnSaitoInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Saito Sejima\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 30\n\n[half]"
+
+	"\_b[icons\saito,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 3/1\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]NPO Representative\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Fireworks\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Humans\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Murder\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Stabbing, Strangling, Killing, Shooting\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Saito is So Sejima's son. His mother died giving birth to him. Born with a brain dysfunction that left him unable to properly secrete oxytocin, he can only feel pleasure from murder.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+On89Info : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]#89\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] Early 40s\n\n[half]"
+
+	"\_b[icons\89,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] Unknown\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Unknown\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Unknown\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Unknown\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Unknown\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Unknown\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]A mysterious inmate currently serving a life sentence at Fuchu Prison for murder. Known only as #89.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnFalcoInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Falco (Hayato Yagyu)\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 42\n\n[half]"
+
+	"\_b[icons\falco,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 8/3\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Police officer and assassin\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]A special elementary school teacher and her daughter\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Zombies, Haunted houses, Evil crimes\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Camping, Barbecue, Okonomiyaki\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Assassination\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Kaname Date's true identity, also known as %(CHR(34))Falco%(CHR(34)) or %(CHR(34))#89.%(CHR(34)) He was working as a police officer by day and assassin by night until six years ago.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnBodyguardInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Bodyguard\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] Unknown\n\n[half]"
+
+	"\_b[icons\bodyguard,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 5/25\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]So's bodyguard\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Boobs, Erotic novels\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Men, Males, Testosterone\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Swimsuit magazines\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Self-defense\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]He is one of So's many bodyguards. Even though they all look alike, they are not clones. They all wear face masks to hide their identity.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnYakuzaAInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Chinpei Wagai\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 24\n\n[half]"
+
+	"\_b[icons\yakuzaA,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 9/14\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Kumakura gang member\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Ass, Erotic novels, His boss\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Police, His big brother, Animal cruelty\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Training dogs\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Won a dog-training contest\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]He is the lowest-ranking member of the Kumakuras. He once had dreams of pursuing the top spot in the gang, but has since decided that he would rather focus on training his favorite dog.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnYakuzaBInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Dokuta Yogano\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 42\n\n[half]"
+
+	"\_b[icons\yakuzaB,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 3/14\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Kumakura gang member\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Dominatrixes\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Domestic violence\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Dissection\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Suturing\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]Perhaps due to the way he looks, he is often mistaken for a low-ranking member even though he is toward the top. He typically does office work. He has recently fallen in love and lost a lot of weight.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnNurseInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Hanayo Nasu\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 24\n\n[half]"
+
+	"\_b[icons\nurse,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 4/27\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Nurse\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Candles, Ropes, Rodeos\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Jocks, Queen Bees\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Theater\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Can shave really fast\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]She is a member of a small group of actors/nurses. She practices hard, even though she has yet to land a leading role.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnRitsukoInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Ritsuko Enshu\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 36\n\n[half]"
+
+	"\_b[icons\ritsuko,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 6/22\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Lemniscate's receptionist\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Yellow-spotted river turtles\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Men that act like ballers but are really scrubs.\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Gambling, Partying\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Anti-aging techniques\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]She is Lemniscate's receptionist. She likes men that are real bros and can vibe with them from the jump. Lately, her shoulders have been stiffening up on her, though.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnAmameInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Amame Doi\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Female\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 20\n\n[half]"
+
+	"\_b[icons\amame,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 8/17\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]%(CHR(34))Mermaid%(CHR(34))\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Ratatat, bang bang, and slappy slap\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]Sea Kings who stay for an hour after ordering just one cup of coffee\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Breeding triplewart seadevils\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Exploiting the vanity of her customers to make huge sums of money\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]She works as a maid at Sunfish Pocket. She's friends with Iris, Mizuki, and Ota, and occasionally goes on haunted tours and UFO sightings with them.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnTaxiDriverInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Takushi Ibarado\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 54\n\n[half]"
+
+	"\_b[icons\taxidriver,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 11/23\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]Taxi driver\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Ghosts, Dopplegangers, Fists, Saws, Chimneys\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]People who watch the map on their smartphones the whole ride\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Multi-level marketing\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Tails, Sticking around, Keeping things casual\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]He is a taxi driver, specializing in driving celebrities and entertainers. He has a special relationship with Lemniscate and often drives their talent.\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+OnKagamiInfo : all{
+	
+	"\0\_q\b4%(tmo)\![set,autoscroll,disable]"
+	"\f[bold,1]Araya Kagami\n\n[half]\f[bold,0]"
+	
+	"\f[bold,1]Gender:\f[bold,0] Male\n\n[half]"
+	"\f[bold,1]Age:\f[bold,0] 30\n\n[half]"
+
+	"\_b[icons\kagami,180,25,--option=use_self_alpha]"
+	
+	"\f[bold,1]Birthday:\f[bold,0] 7/20\n\n[half]"
+	
+	"\f[bold,1]Profession: \f[bold,0]An officer working for the CSI unit of the MPD\n\n[half]"
+	"\f[bold,1]Likes: \f[bold,0]Earpicks, Dandelions, Afros, Kesaran Pasaran\n\n[half]"
+	"\f[bold,1]Dislikes: \f[bold,0]People who don't remember his name, Cilantro, Ginkgo\n\n[half]"
+	"\f[bold,1]Hobbies: \f[bold,0]Train surfing, Extreme ironing\n\n[half]"
+	"\f[bold,1]Skills: \f[bold,0]Pretending to be dead\n\n[half]"
+	"\f[bold,1]Overview:\n\f[bold,0]An expert inspector with remarkable skills. He was assigned to the New Cyclops Serial Killings. He's actually really cute when he takes his mask off, and he's single...\n\n"
+	"\![*]\q[Back to the menu,OnPersonnelMenu]\e"
+
+}
+
+OnKeyTermsMenu: all{
+
+	"\0\_q\b2[Some terms that might be helpful to know if you haven't played AI:TSF]\n\n"
+	
+	"\_a[OnABISInfo]ABIS\_a\n"
+	"\_a[OnEvolverInfo]Evolver\_a\n"
+	"\_a[OnPsyncInfo]Psync\_a\n"
+	"\_a[OnSomniumInfo]Somnium\_a\n"
+	"\_a[OnAibaFeatInfo]Aiba's functions\_a\n"
+	"\_a[OnShovelForgeInfo]ShovelForge\_a\n"
+	"\_a[OnAsetCallInfo]A-set, You Bet!\_a\n"
+	"\_a[OnLemniscateInfo]Lemniscate\_a\n"
+	"\_a[OnAdorabbitInfo]Adorabbit\_a\n"
+
+	"\n\![*]\q[Back to the menu,OnMenuRun]\e"
+}
+OnABISInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"Stands for Advanced Brain Investigation Squad. A special, classified division of the Metropolitan Police Department (MPD). Tasked with conducting criminal investigations by understanding and penetrating the human mind. Few know of their existence, even among police.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
+OnEvolverInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"Stands for Exciting VOLtaic VERsatile handgun. Date's weapon. Can fire a number of different kinds of bullets, such as explosive, flame, spherical, and wire rounds using electromagnetic force. Pewter invented it at the request of Aiba and Date.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
+OnPsyncInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"Stands for Photo SYnaptic Neuro-Coupling. Used to enter the brain of a subject. The %(CHR(34))Psyncer%(CHR(34)) sinks to the deepest level of the subjects subconscious and synchronizes with their synapses to collect data.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
+OnSomniumInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"%(CHR(34))Dream%(CHR(34)) in Latin. Worlds that exist in a person's subconscious, and like dreams, they can blend elements of fantasy and reality. A Psyncer enters a subject's Somnium to find out information, such as resurfacing memories the subject may have forgotten.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
+OnAibaFeatInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"Aiba has a few features that assist Date in investigations. She can perform a thermographic scan to look for changes in temperature in a subject or environment. She also has a night-vision mode, and an X-ray mode (which functions like an actual X-ray, and shows a subject's skeleton rather than their underwear.) On the less helpful (to Date) side, Aiba can release an electric charge directly into Date's brain via an artificial nerve, which keeps him in check.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
+OnShovelForgeInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"A sandbox video game in which you create structures by stacking cubes on a map. There is no story or goal, allowing players to just relax and be creative. The name is a parody of a popular game in the same genre.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
+OnAsetCallInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"A call and response game that A-set plays with her fans. Japanese idols often create a special cheer or slogan for their fans to memorize and chant at concerts. A-set's cheer works by A-set announcing a category and having her fan come up with two words that rhyme with %(CHR(34))A-set%(CHR(34)) in that category.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
+OnLemniscateInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"A talent agency that Renju Okiura owns. A-set's producer. The logo is shaped like an infinity symbol.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
+OnAdorabbitInfo : all {
+
+		"\0\_q\b2%(tmo)"
+		"A blue rabbit mascot character that looks rather strange. Iris and Mizuki's favorite mascot.\n"
+		"\n\![*]\q[Back to the menu,OnKeyTermsMenu]\e"
+
+}
